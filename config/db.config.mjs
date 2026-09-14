@@ -12,6 +12,7 @@ const connectDb = async () => {
     console.log(`Connected database: ${conn.connection.name}`);
   } catch (error) {
     console.log(`Error in connection: `, error.message);
+    throw error;
   }
 };
 

@@ -64,9 +64,9 @@ const login = asyncHanlder(async(request, response) => {
     
     response.cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 1 * 60 * 60 * 3600
+        maxAge: 60 * 60 * 1000
     })
 
     response.status(200).json({ 
@@ -79,10 +79,12 @@ const login = asyncHanlder(async(request, response) => {
 })
 
 const logout = asyncHanlder(async(request, response) => {
+    response.clearCookie("token")
     response.status(200).json({ message: `User logout.` })    
 })
 
 const profile = asyncHanlder(async(request, response) => {
+    const profile = await User .findById(request.user._id).select("-password")
     response.status(200).json({ message: `User profile.` })    
     
 })
