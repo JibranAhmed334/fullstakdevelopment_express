@@ -5,11 +5,12 @@ import morgan from "morgan"
 import connectDb from "./config/db.config.mjs"
 import authRouter from "./routes/auth.route.mjs"
 import cookieParser from "cookie-parser"
+import categoryRouter from "./routes/category.route.mjs"
 
 const app = express()
 const port = process.env.PORT
 
-connectDb()
+ await connectDb()
 app.use(express.json())
 
 app.use(cors({
@@ -21,6 +22,7 @@ app.use(cookieParser())
 
 
 app.use("/api/auth", authRouter)
+app.use("/api/categories", categoryRouter)
 
 app.listen(port, () => {
     console.log(`Server is running at port: ${port}`)

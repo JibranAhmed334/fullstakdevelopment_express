@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { login, logout, profile, register } from "../controllers/auth.controller.mjs";
 import varifytoken from "../midlleware/varifymiddleware.mjs";
-import roleMiddleware from "../RoleBaseMiddleware/RoleMiddleware.mjs";
+import roleMiddleware from "../midlleware/RoleMiddleware.mjs";
 
 
 const authRouter = Router()
