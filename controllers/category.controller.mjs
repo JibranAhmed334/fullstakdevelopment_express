@@ -55,10 +55,52 @@ const getSingleCategory = AsyncHandler(async (req, res) => {
 });
 
 const updateCategory = AsyncHandler(async (req, res) => {
-    return res.status(200).json({ massage: "update categories", success: true });
+    const { id } = req.params;
+    const categoryName = req.body.category_name ?? req.body.Category_name ?? req.body.categoryName ?? req.body.catogery_name ?? req.body.catogeryname;
+
+    const category = await Category.findById(id);
+    
+ if (!category) {
+        return res.status(404).json({
+            massage: "category does not exists",
+            success: false
+        })
+ }
+
+    if (!categoryName) {
+        return res.status(400).json({
+            massage: "please category provided",
+            success: false
+        });
+    }
+
+    const updatedCategory = await Category.findByIdAndUpdate(
+        id,
+        { category_name: categoryName },
+        { new: true, runValidators: true }
+    );
+
+    return res.status(200).json({ 
+        massage: "update categories", 
+        success: true,
+        updatedCategory
+     });
 });
 
 const deleteCategory = AsyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const category = await Category.findById(id);
+    
+ if (!category) {
+        return res.status(404).json({
+            massage: "category does not exists",
+            success: false
+        })
+ }
+
+    await Category.findByIdAndDelete(id);
+
     return res.status(200).json({ massage: "delete categories", success: true });
 });
 
